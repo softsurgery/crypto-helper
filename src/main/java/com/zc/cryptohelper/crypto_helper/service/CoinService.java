@@ -3,8 +3,12 @@ package com.zc.cryptohelper.crypto_helper.service;
 import com.zc.cryptohelper.crypto_helper.exceptions.ResourceNotFoundException;
 import com.zc.cryptohelper.crypto_helper.models.Coin;
 import com.zc.cryptohelper.crypto_helper.repository.CoinRepository;
+import com.zc.cryptohelper.crypto_helper.storage.Upload;
+import com.zc.cryptohelper.crypto_helper.storage.UploadService;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Optional;
@@ -13,8 +17,15 @@ import java.util.Optional;
 public class CoinService {
     @Autowired
     CoinRepository coinRepository;
+    @Autowired
+    private UploadService uploadService;
 
-    public Coin saveOrUpdateCoin(Coin coin){
+    @Transactional
+    public Coin createCoin(String name, Upload upload) {
+        Coin coin = new Coin();
+        coin.setName(name);
+        coin.setUpload(upload);
+        // Save the coin
         return coinRepository.save(coin);
     }
 
@@ -22,9 +33,7 @@ public class CoinService {
         return coinRepository.findAll();
     }
 
-    public Coin findCoinByName(String name){
-        Coin coin = coinRepository.findByName(name).orElseThrow(
-                ()-> new ResourceNotFoundException("Coin","name",name));
-        return coin;
+    public Optional<Coin> findCoinByName(String name){
+        return coinRepository.findByName(name);
     }
 }

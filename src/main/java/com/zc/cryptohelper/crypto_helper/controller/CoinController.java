@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/api/coins")
 public class CoinController {
@@ -20,25 +21,5 @@ public class CoinController {
     @Autowired
     MapValidationErrorService mapValidationErrorService;
 
-    @PostMapping("")
-    public ResponseEntity<?> createStudent(@Valid @RequestBody Coin coin, BindingResult result){
-        ResponseEntity<?> errorMap = mapValidationErrorService.mapValidations(result);
-        if (errorMap!=null) return errorMap;
-
-        Coin newCoin = coinService.saveOrUpdateCoin(coin);
-        return new ResponseEntity<>(newCoin, HttpStatus.CREATED);
-    }
-
-    @GetMapping("")
-    ResponseEntity<?> getAllStudents(){
-        List<Coin> coins = coinService.findAllCoins();
-        return new ResponseEntity<>(coins,HttpStatus.OK);
-    }
-
-    @GetMapping("/{name}")
-    public ResponseEntity<?> getStudentByName(@PathVariable String name){
-        Coin coin = coinService.findCoinByName(name);
-        return new ResponseEntity<>(coin,HttpStatus.OK);
-    }
 
 }

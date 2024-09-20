@@ -11,6 +11,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.Set;
 
 
 @Entity
@@ -38,5 +39,12 @@ public class User extends DateAudit {
     @JoinColumn(name = "role_id", nullable = false)
     private Role role;
 
+    @ManyToMany
+    @JoinTable(
+            name = "user_favourite_coins",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "coin_id")
+    )
+    private Set<Coin> favouriteCoins;
 }
 
