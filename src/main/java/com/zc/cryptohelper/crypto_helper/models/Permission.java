@@ -20,6 +20,9 @@ public class Permission {
     @Column(updatable = false)
     private String name;
 
+    @Size(max = 255)
+    private String description;
+
     @ManyToMany(mappedBy = "permissions")
     private List<Role> roles;
 }

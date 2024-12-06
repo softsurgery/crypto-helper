@@ -1,4 +1,4 @@
-package com.zc.cryptohelper.crypto_helper.service;
+package com.zc.cryptohelper.crypto_helper.service.userManagement;
 
 import com.zc.cryptohelper.crypto_helper.models.Coin;
 import com.zc.cryptohelper.crypto_helper.models.User;

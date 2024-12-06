@@ -2,7 +2,7 @@ package com.zc.cryptohelper.crypto_helper.controller;
 
 import com.zc.cryptohelper.crypto_helper.models.Coin;
 import com.zc.cryptohelper.crypto_helper.models.User;
-import com.zc.cryptohelper.crypto_helper.service.UserService;
+import com.zc.cryptohelper.crypto_helper.service.userManagement.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

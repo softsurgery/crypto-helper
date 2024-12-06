@@ -1,0 +1,66 @@
+[
+  {
+    "name": "USER_CREATE",
+    "description": "Allows creating a new user"
+  },
+  {
+    "name": "USER_READ",
+    "description": "Allows reading user details"
+  },
+  {
+    "name": "USER_UPDATE",
+    "description": "Allows updating user details"
+  },
+  {
+    "name": "USER_DELETE",
+    "description": "Allows deleting a user"
+  },
+  {
+    "name": "ROLE_CREATE",
+    "description": "Allows creating a new role"
+  },
+  {
+    "name": "ROLE_READ",
+    "description": "Allows reading role details"
+  },
+  {
+    "name": "ROLE_UPDATE",
+    "description": "Allows updating role details"
+  },
+  {
+    "name": "ROLE_DELETE",
+    "description": "Allows deleting a role"
+  },
+  {
+    "name": "COIN_CREATE",
+    "description": "Allows creating a new coin"
+  },
+  {
+    "name": "COIN_READ",
+    "description": "Allows reading coin details"
+  },
+  {
+    "name": "COIN_UPDATE",
+    "description": "Allows updating coin details"
+  },
+  {
+    "name": "COIN_DELETE",
+    "description": "Allows deleting a coin"
+  },
+  {
+    "name": "COIN_CATEGORY_CREATE",
+    "description": "Allows creating a new coin category"
+  },
+  {
+    "name": "COIN_CATEGORY_READ",
+    "description": "Allows reading coin category details"
+  },
+  {
+    "name": "COIN_CATEGORY_UPDATE",
+    "description": "Allows updating coin category details"
+  },
+  {
+    "name": "COIN_CATEGORY_DELETE",
+    "description": "Allows deleting a coin category"
+  }
+]
