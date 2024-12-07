@@ -1,8 +1,10 @@
 package com.zc.cryptohelper.crypto_helper.controller.userManagement;
 
+import com.zc.cryptohelper.crypto_helper.models.Permission;
 import com.zc.cryptohelper.crypto_helper.models.Role;
 import com.zc.cryptohelper.crypto_helper.service.userManagement.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,6 +25,18 @@ public class RoleController {
     @GetMapping
     public ResponseEntity<List<Role>> getAllRoles() {
         return ResponseEntity.ok(roleService.getAllRoles());
+    }
+
+    @GetMapping("/list")
+    public ResponseEntity<Page<Role>> findRoles(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "5") int size,
+            @RequestParam(required = false) String search,
+            @RequestParam(defaultValue = "id") String sort,
+            @RequestParam(defaultValue = "asc") String order
+    ) {
+        Page<Role> roles = roleService.findRoles(page, size, search, sort, order);
+        return ResponseEntity.ok(roles);
     }
 
     // Get role by ID

@@ -1,5 +1,6 @@
 package com.zc.cryptohelper.crypto_helper.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -24,5 +25,6 @@ public class Permission {
     private String description;
 
     @ManyToMany(mappedBy = "permissions")
+    @JsonIgnore
     private List<Role> roles;
 }
