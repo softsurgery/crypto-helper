@@ -8,6 +8,7 @@ import java.text.DecimalFormat;
 @Data
 public class CryptoData {
     private int rank;
+    private String hrefName;
     private String code;
     private String name;
     private float price;

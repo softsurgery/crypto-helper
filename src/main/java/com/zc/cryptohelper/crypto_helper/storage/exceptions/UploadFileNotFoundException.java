@@ -7,6 +7,6 @@ public class UploadFileNotFoundException extends UploadException {
   }
 
   public UploadFileNotFoundException(String message, Throwable cause) {
-    super(message, cause);
+    super(message);
   }
 }

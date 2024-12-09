@@ -61,6 +61,15 @@ public class CoinsWebScrapingService {
     //this method will be called by a recurrent job
     public void saveCoinData(List<WebElement> cells) throws IOException {
         String name = cells.get(2).getText().replaceAll("\\s+[^\\s]+$", "");
+
+        // Extract the <a> tag and its href attribute
+        WebElement linkElement = cells.get(2).findElement(By.tagName("a"));
+        String fullHref = linkElement.getAttribute("href");
+
+        // Remove the trailing slash (if present) and extract the last part of the URL
+        String sanitizedHref = fullHref.endsWith("/") ? fullHref.substring(0, fullHref.length() - 1) : fullHref;
+        String hrefName = sanitizedHref.substring(sanitizedHref.lastIndexOf("/") + 1);
+
         WebElement imgElement = cells.get(2).findElement(By.tagName("img"));
         String imageUrl = imgElement.getAttribute("src");
 
@@ -90,7 +99,7 @@ public class CoinsWebScrapingService {
             // Create or update coin with the upload
             Optional<Coin> existingCoinOpt = coinService.findCoinByName(name);
             if (existingCoinOpt.isEmpty()) {
-                coinService.createCoin(name, upload);
+                coinService.createCoin(name,hrefName, upload);
             }
         }
 
@@ -163,8 +172,14 @@ public class CoinsWebScrapingService {
                         if (cells.size() > 1) {
                             CryptoData cryptoData = new CryptoData();
                             cryptoData.setRank(Integer.parseInt(cells.get(1).getText()));
-                            //logger.info(cells.get(1).getText());
+                            // Extract the <a> tag and its href attribute
+                            WebElement linkElement = cells.get(2).findElement(By.tagName("a"));
+                            String fullHref = linkElement.getAttribute("href");
 
+                            // Remove the trailing slash (if present) and extract the last part of the URL
+                            String sanitizedHref = fullHref.endsWith("/") ? fullHref.substring(0, fullHref.length() - 1) : fullHref;
+                            String hrefName = sanitizedHref.substring(sanitizedHref.lastIndexOf("/") + 1);
+                            cryptoData.setHrefName(hrefName);
                             //Name, Code & Picture
                             cryptoData.setCode(cells.get(2).getText().trim().split("\\s+")[cells.get(2).getText().trim().split("\\s+").length - 1]);
                             cryptoData.setName(cells.get(2).getText().replaceAll("\\s+[^\\s]+$", ""));

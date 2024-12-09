@@ -91,7 +91,7 @@ public class UploadService {
                         StandardCopyOption.REPLACE_EXISTING);
             }
         } catch (IOException e) {
-            throw new UploadException("Failed to store file.", e);
+            throw new UploadException("Failed to store file." + e.getMessage());
         }
 
         return upload;
@@ -144,7 +144,7 @@ public class UploadService {
             uploadRepository.deleteById(id);
             return upload;
         } catch (Exception e) {
-            throw new UploadException("Failed to delete file: " + id, e);
+            throw new UploadException("Failed to delete file: " + id);
         }
     }
 
@@ -158,7 +158,7 @@ public class UploadService {
             uploadRepository.deleteBySlug(slug);
             return upload;
         } catch (Exception e) {
-            throw new UploadException("Failed to delete file: " + slug, e);
+            throw new UploadException("Failed to delete file: " + slug);
         }
     }
 
@@ -169,7 +169,7 @@ public class UploadService {
             uploadRepository.deleteBySlug(upload.getSlug());
             return upload;
         } catch (Exception e) {
-            throw new UploadException("Failed to delete file: " + upload.getSlug(), e);
+            throw new UploadException("Failed to delete file: " + upload.getSlug());
         }
     }
 }

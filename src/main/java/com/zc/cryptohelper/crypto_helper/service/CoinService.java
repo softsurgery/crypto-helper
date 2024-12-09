@@ -1,39 +1,51 @@
 package com.zc.cryptohelper.crypto_helper.service;
 
-import com.zc.cryptohelper.crypto_helper.exceptions.ResourceNotFoundException;
 import com.zc.cryptohelper.crypto_helper.models.Coin;
 import com.zc.cryptohelper.crypto_helper.repository.CoinRepository;
-import com.zc.cryptohelper.crypto_helper.storage.Upload;
-import com.zc.cryptohelper.crypto_helper.storage.UploadService;
-import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class CoinService {
-    @Autowired
-    CoinRepository coinRepository;
-    @Autowired
-    private UploadService uploadService;
+    private final CoinRepository coinRepository;
 
-    @Transactional
-    public Coin createCoin(String name, Upload upload) {
-        Coin coin = new Coin();
-        coin.setName(name);
-        coin.setUpload(upload);
-        // Save the coin
-        return coinRepository.save(coin);
+    @Autowired
+    public CoinService(CoinRepository coinRepository) {
+        this.coinRepository = coinRepository;
     }
 
-    public List<Coin> findAllCoins(){
+    public Page<Coin> findCoins(int page, int size, String searchTerm, String sortKey, String order) {
+        Sort.Direction direction = order.equalsIgnoreCase("asc") ? Sort.Direction.ASC : Sort.Direction.DESC;
+        PageRequest pageRequest = PageRequest.of(page, size, Sort.by(direction, sortKey));
+        if (searchTerm != null && !searchTerm.isEmpty()) {
+            return coinRepository.findByNameContainingIgnoreCase(searchTerm, pageRequest);
+        }
+        return coinRepository.findAll(pageRequest);
+    }
+
+    public List<Coin> getAllCoins() {
         return coinRepository.findAll();
     }
 
-    public Optional<Coin> findCoinByName(String name){
-        return coinRepository.findByName(name);
+    public Optional<Coin> getCoinById(Long id) {
+        return coinRepository.findById(id);
+    }
+
+    public Optional<Coin> getCoinByHrefName(String hrefName) {
+        return coinRepository.findByHrefName(hrefName);
+    }
+
+    public Coin saveCoin(Coin permission) {
+        return coinRepository.save(permission);
+    }
+
+    public void deleteCoin(Long id) {
+        coinRepository.deleteById(id);
     }
 }

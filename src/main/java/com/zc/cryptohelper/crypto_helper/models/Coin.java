@@ -21,6 +21,10 @@ public class Coin {
     @Size(max = 100)
     private String name;
 
+    @NotNull
+    @Size(max = 100)
+    private String hrefName;
+
     @OneToOne
     @JoinColumn(name = "upload_id")  // Foreign key column in the Coin table
     private Upload upload;

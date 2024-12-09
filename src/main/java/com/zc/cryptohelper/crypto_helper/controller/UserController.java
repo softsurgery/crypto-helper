@@ -2,6 +2,7 @@ package com.zc.cryptohelper.crypto_helper.controller;
 
 import com.zc.cryptohelper.crypto_helper.models.Coin;
 import com.zc.cryptohelper.crypto_helper.models.User;
+import com.zc.cryptohelper.crypto_helper.service.CoinService;
 import com.zc.cryptohelper.crypto_helper.service.userManagement.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +17,9 @@ import java.util.Set;
 public class UserController {
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private CoinService coinService;
 
     //Admin Function
     @PostMapping
@@ -66,6 +70,22 @@ public class UserController {
         }
     }
 
+    // Endpoint to add a coin to user's favorite list
+    @PostMapping("/{userId}/favourite-coins/{coinHrefName}")
+    public ResponseEntity<String> addFavouriteCoinByHrefName(@PathVariable Long userId, @PathVariable String coinHrefName) {
+        try {
+            Optional<Coin> optionalCoinoin = coinService.getCoinByHrefName(coinHrefName);
+            if (optionalCoinoin.isPresent()) {
+                Coin coin = optionalCoinoin.get();
+                userService.addFavouriteCoin(userId, coin.getId());
+                return ResponseEntity.ok("Coin added to favourites.");
+            }
+            return ResponseEntity.badRequest().body("Coin not found");
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
     // Endpoint to remove a coin from user's favorite list
     @DeleteMapping("/{userId}/favourite-coins/{coinId}")
     public ResponseEntity<String> removeFavouriteCoin(@PathVariable Long userId, @PathVariable Long coinId) {
@@ -78,7 +98,7 @@ public class UserController {
     }
 
     // Endpoint to get the list of user's favorite coins
-    @GetMapping("/{username}/favourite-coins")
+    @GetMapping("/{userId}/favourite-coins")
     public ResponseEntity<Set<Coin>> getFavouriteCoins(@PathVariable Long userId) {
         try {
             Set<Coin> favouriteCoins = userService.getFavouriteCoins(userId);
